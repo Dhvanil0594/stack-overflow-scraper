@@ -24,7 +24,7 @@ class QuestionsSpider(scrapy.Spider):
                     "views": question.css(".s-post-summary--stats-item:nth-child(3) .s-post-summary--stats-item-number::text").get(),
                     "tags": question.css(".s-post-summary--meta .s-post-summary--meta-tags .s-tag::text").getall(),
                     "username": question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::text").get(),
-                    "user_link": "https://stackoverflow.com"+question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::attr(href)").get(),
+                    "user_link": "https://stackoverflow.com" + (question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::attr(href)").get() or ""),
                     "question_post_time": question.css(".s-post-summary--meta .s-user-card .s-user-card--time .relativetime::attr(title)").get(),
                 })
             else:
@@ -37,7 +37,7 @@ class QuestionsSpider(scrapy.Spider):
                     "views": question.css(".s-post-summary--stats-item:nth-child(3) .s-post-summary--stats-item-number::text").get(),
                     "tags": question.css(".s-post-summary--meta .s-post-summary--meta-tags .s-tag::text").getall(),
                     "username": question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::text").get(),
-                    "user_link": "https://stackoverflow.com"+question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::attr(href)").get(),
+                    "user_link": "https://stackoverflow.com" + (question.css(".s-post-summary--meta .s-user-card .s-user-card--info a::attr(href)").get() or ""),
                     "question_post_time": question.css(".s-post-summary--meta .s-user-card .s-user-card--time .relativetime::attr(title)").get(),
                     "accepted_answer": [], 
                     "suggested_answer": []
@@ -70,7 +70,7 @@ class QuestionsSpider(scrapy.Spider):
                 accepted_answer_dict["accepted_answer"] = ' '.join([t.strip() for t in texts if t.strip()])
                 accepted_answer_dict["post_time"] = answer.css('div.user-action-time .relativetime::attr(title)').get()
                 accepted_answer_dict["username"] = answer.css('.user-info .user-details a::text').get()
-                accepted_answer_dict["user_link"] =  "https://stackoverflow.com"+answer.css('.user-info .user-details a::attr(href)').get()
+                accepted_answer_dict["user_link"] =  "https://stackoverflow.com" + (answer.css('.user-info .user-details a::attr(href)').get() or "")
                 accepted_answer_dict["reputation_score"] = answer.css('.user-info .user-details .reputation-score::text').get() or '0'
                 accepted_answer_dict["gold_badge_count"] = answer.css('.user-info .user-details [title*="gold"] .badgecount::text').get() or '0'
                 accepted_answer_dict["silver_badge_count"] = answer.css('.user-info .user-details [title*="silver"] .badgecount::text').get() or '0'
@@ -85,7 +85,7 @@ class QuestionsSpider(scrapy.Spider):
                 suggested_answer_dict["suggested_answer"] = ' '.join([t.strip() for t in texts if t.strip()])
                 suggested_answer_dict["post_time"] = answer.css('div.user-action-time .relativetime::attr(title)').get()
                 suggested_answer_dict["username"] = answer.css('.user-info .user-details a::text').get()
-                suggested_answer_dict["user_link"] =  "https://stackoverflow.com"+answer.css('.user-info .user-details a::attr(href)').get()
+                suggested_answer_dict["user_link"] =  "https://stackoverflow.com" + (answer.css('.user-info .user-details a::attr(href)').get() or "")
                 suggested_answer_dict["reputation_score"] = answer.css('.user-info .user-details .reputation-score::text').get() or '0'
                 suggested_answer_dict["gold_badge_count"] = answer.css('.user-info .user-details [title*="gold"] .badgecount::text').get()  or '0'
                 suggested_answer_dict["silver_badge_count"] = answer.css('.user-info .user-details [title*="silver"] .badgecount::text').get() or '0'
